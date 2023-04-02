@@ -3,4 +3,6 @@
     border: solid black 1px;
 }
 
-
+.btn, .button-primary {
+    width: 100%;
+}
