@@ -4,7 +4,7 @@ body {
 }
 
 #container {
-    padding-left: 3rem;
+    padding-left: 7.5rem;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -20,11 +20,9 @@ body {
 .btn {
   /* border: solid 2px black; */
   width: 15%;
-  height:30px;
+  height:40px;
   text-align: center;
   border-radius: 5px 5px 5px 5px;
-  background-color: #0d6efd;
-  
 }
 
 .btn2 {
@@ -34,7 +32,7 @@ body {
 }
 
 .btn:hover {
-    background-color:#4141e1
+    background-color:#0d6efd
     
 }
 
