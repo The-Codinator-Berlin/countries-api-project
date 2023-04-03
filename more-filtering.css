@@ -3,7 +3,7 @@ body {
   background-color: #ffc107;
 }
 
-.container {
+.container-h-1 {
   max-width: 100%;
   display: flex;
   justify-content: center;
