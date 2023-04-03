@@ -42,3 +42,10 @@ body {
     transform: translateY(0);
   }
 }
+
+.card {
+    height: 15rem;
+    border: solid black 1px;
+    text-align: center;
+    padding: 1rem;
+}
