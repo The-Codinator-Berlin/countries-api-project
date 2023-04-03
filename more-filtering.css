@@ -3,6 +3,14 @@ body {
   background-color: #ffc107;
 }
 
+#container {
+    padding-left: 3rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
 .container-h-1 {
   max-width: 100%;
   display: flex;
