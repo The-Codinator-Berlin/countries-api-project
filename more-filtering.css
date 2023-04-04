@@ -43,3 +43,8 @@ body {
 }
 
 
+#boxFiltering {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 10px;
+}
