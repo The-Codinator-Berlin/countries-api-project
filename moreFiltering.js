@@ -1,4 +1,8 @@
+// Fetch function -----------------------------------------------------
+
 const url = "https://restcountries.com/v3.1/all";
+
+let allData = [];
 
 const fetchData = () => {
   fetch(url)
@@ -6,8 +10,9 @@ const fetchData = () => {
       return response.json();
     })
     .then((countriesResult) => {
-      const allData = countriesResult;
+      allData = countriesResult;
       createCards(allData);
+      // console.log(allData);
     })
     .catch((error) => {
       console.log(error);
@@ -17,8 +22,8 @@ const fetchData = () => {
 fetchData();
 
 //This function creates a card for each country with the img, name of country and a button//
-function createCards(allData) {
-  for (let i = 0; i < allData.length; i++) {
+function createCards(data) {
+  for (let i = 0; i < data.length; i++) {
     let container = document.getElementById("container");
 
     let cardDiv = document.createElement("div");
@@ -27,8 +32,8 @@ function createCards(allData) {
 
     let img = document.createElement("img");
     img.classList.add("card-img-top");
-    img.setAttribute("src", allData[i].flags.png);
-    img.setAttribute("alt", allData[i].flags.alt);
+    img.setAttribute("src", data[i].flags.png);
+    img.setAttribute("alt", data[i].flags.alt);
 
     let cardBody = document.createElement("div");
     cardBody.classList.add("card-body");
@@ -50,3 +55,4 @@ function createCards(allData) {
   }
 }
 
+// Checkboxes ------------------------------------------------------------
