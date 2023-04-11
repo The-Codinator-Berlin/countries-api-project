@@ -1,4 +1,8 @@
+// Fetch function -----------------------------------------------------
+
 const url = "https://restcountries.com/v3.1/all";
+
+let allData = [];
 
 const fetchData = () => {
   fetch(url)
@@ -6,8 +10,8 @@ const fetchData = () => {
       return response.json();
     })
     .then((countriesResult) => {
-      const allData = countriesResult;
-      creteTableData(allData);
+      allData = countriesResult;
+      createTableData(allData);
     })
     .catch((error) => {
       console.log(error);
@@ -16,28 +20,59 @@ const fetchData = () => {
 
 fetchData();
 
-const body = document.getElementById("tableBody");
+// Creating table with data ------------------------------------------
 
-function creteTableData(allData) {
-  for (let i = 0; i < allData.length; i++) {
+const tableBody = document.getElementById("tableBody");
+
+function createTableData(data) {
+  tableBody.innerText = "";
+
+  for (let i = 0; i < data.length; i++) {
     const row = document.createElement("tr");
 
     let flag = document.createElement("img");
-    flag.src = allData[i].flags.png;
+    flag.src = data[i].flags.png;
 
     let names = document.createElement("td");
-    names.innerText = allData[i].name.common;
+    names.innerText = data[i].name.common;
 
     let capital = document.createElement("td");
-    capital.innerText = allData[i].capital;
+    capital.innerText = data[i].capital;
 
     let population = document.createElement("td");
-    population.innerText = allData[i].population;
+    population.innerText = data[i].population;
+
+    row.appendChild(flag);
+    row.appendChild(names);
+    row.appendChild(capital);
+    row.appendChild(population);
 
     tableBody.appendChild(row);
-    tableBody.appendChild(flag);
-    tableBody.appendChild(names);
-    tableBody.appendChild(capital);
-    tableBody.appendChild(population);
   }
-};
+}
+
+// Dropdown/ Event listener------------------------------------------------------------
+
+const dropdownSelect = document.getElementById("countriesDropDown");
+// The optionSelect() function is called when the user selects an option from the dropdown menu.
+dropdownSelect.addEventListener("change", optionSelect);
+
+function optionSelect() {
+  const region = this.value;
+  // this.value mean when someone is selecting this value or this dropdown option
+  const filteredData = [];
+  // An empty array called filteredData is created to hold the countries that match the selected region.
+  if (region === "All") {
+    createTableData(allData);
+    // creates table with all data 
+  } else {
+    for (let i = 0; i < allData.length; i++) {
+      if (allData[i].region === region) {
+        filteredData.push(allData[i]);
+        // OR loops through and takes just the data that matches the option selected
+      }
+    }
+
+    createTableData(filteredData);
+  }
+}
