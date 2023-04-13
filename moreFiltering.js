@@ -41,15 +41,9 @@ function createCards(allCountries) {
 
 function filterByInput(countries) {
   const searchInput = "United";
-  const filteredCountries = countries.filter(
-    function (x) {
-      // console.log(x.name.common);
-      if (x.name.common.includes(searchInput) ) {
-        return true;
-      } else {
-        return false;
-      }
-  })
+  const filteredCountries = countries.filter(function (country) {
+    return country.name.common.includes(searchInput);
+  });
   return filteredCountries;
 }
 
