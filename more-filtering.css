@@ -4,9 +4,9 @@ body {
 }
 
 #container {
-  padding-left: 7.5rem;
   display: flex;
   flex-direction: row;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 10px;
 }
@@ -42,9 +42,19 @@ body {
   }
 }
 
-
 #boxFiltering {
-    display: flex;
-    justify-content: space-evenly;
-    padding: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.searchBox {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 1em;
+}
+
+.searchB {
+  border: solid 2px #0584FC;
+  border-radius: 5px;
+  width: 20%;
 }
