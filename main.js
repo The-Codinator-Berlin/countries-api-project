@@ -24,23 +24,23 @@ fetchData();
 
 const tableBody = document.getElementById("tableBody");
 
-function createTableData(data) {
+function createTableData(countries) {
   tableBody.innerText = "";
 
-  for (let i = 0; i < data.length; i++) {
+  for (let i = 0; i < countries.length; i++) {
     const row = document.createElement("tr");
 
     let flag = document.createElement("img");
-    flag.src = data[i].flags.png;
+    flag.src = countries[i].flags.png;
 
     let names = document.createElement("td");
-    names.innerText = data[i].name.common;
+    names.innerText = countries[i].name.common;
 
     let capital = document.createElement("td");
-    capital.innerText = data[i].capital;
+    capital.innerText = countries[i].capital;
 
     let population = document.createElement("td");
-    population.innerText = data[i].population;
+    population.innerText = countries[i].population;
 
     row.appendChild(flag);
     row.appendChild(names);
@@ -60,7 +60,7 @@ dropdownSelect.addEventListener("change", optionSelect);
 function optionSelect() {
   const region = this.value;
   // this.value mean when someone is selecting this value or this dropdown option
-  const filteredData = [];
+  const filteredCountries = [];
   // An empty array called filteredData is created to hold the countries that match the selected region.
   if (region === "All") {
     createTableData(allData);
@@ -73,6 +73,6 @@ function optionSelect() {
       }
     }
 
-    createTableData(filteredData);
+    createTableData(filteredCountries);
   }
 }
