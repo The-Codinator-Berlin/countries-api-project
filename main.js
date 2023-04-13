@@ -68,7 +68,7 @@ function optionSelect() {
   } else {
     for (let i = 0; i < allData.length; i++) {
       if (allData[i].region === region) {
-        filteredData.push(allData[i]);
+        filteredCountries.push(allData[i]);
         // OR loops through and takes just the data that matches the option selected
       }
     }
