@@ -3,8 +3,10 @@ import { getCountriesData } from "./getCountriesData.js";
 // Fetch function -----------------------------------------------------
 getCountriesData(createCards);
 
-//This function creates a card for each country with the img, name of country and a button//
-function createCards(countries) {
+//This function creates a card for each country with the img, name of country and a button and also calls the filterByInput function//
+function createCards(allCountries) {
+  const countries = filterByInput(allCountries);
+  
   for (let i = 0; i < countries.length; i++) {
     let container = document.getElementById("container");
 
@@ -37,4 +39,15 @@ function createCards(countries) {
   }
 }
 
-// Checkboxes ------------------------------------------------------------
+function filterByInput(countries) {
+  const filteredCountries = [countries[0],countries[1]];
+  return filteredCountries;
+}
+
+// Search Bar--------------------------------------------------
+
+// 1. filter country names with a static name like united
+
+// 2. get search term from user to be what filter is 
+
+// 3. even that filters as soon as you start typing 
