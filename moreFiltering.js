@@ -1,25 +1,7 @@
+import { getCountriesData } from "./getCountriesData.js";
+
 // Fetch function -----------------------------------------------------
-
-const url = "https://restcountries.com/v3.1/all";
-
-let allData = [];
-
-const fetchData = () => {
-  fetch(url)
-    .then((response) => {
-      return response.json();
-    })
-    .then((countriesResult) => {
-      allData = countriesResult;
-      createCards(allData);
-      // console.log(allData);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
-
-fetchData();
+getCountriesData(createCards);
 
 //This function creates a card for each country with the img, name of country and a button//
 function createCards(countries) {
