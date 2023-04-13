@@ -1,24 +1,7 @@
+import { getCountriesData } from "./getCountriesData.js";
+
 // Fetch function -----------------------------------------------------
-
-const url = "https://restcountries.com/v3.1/all";
-
-let allData = [];
-
-const fetchData = () => {
-  fetch(url)
-    .then((response) => {
-      return response.json();
-    })
-    .then((countriesResult) => {
-      allData = countriesResult;
-      createTableData(allData);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
-
-fetchData();
+getCountriesData(createTableData);
 
 // Creating table with data ------------------------------------------
 
