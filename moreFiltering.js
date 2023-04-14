@@ -6,7 +6,7 @@ getCountriesData(createCards);
 //This function creates a card for each country with the img, name of country and a button and also calls the filterByInput function//
 function createCards(allCountries) {
   const countries = filterByInput(allCountries);
-  
+
   for (let i = 0; i < countries.length; i++) {
     let container = document.getElementById("container");
 
@@ -40,6 +40,11 @@ function createCards(allCountries) {
 }
 
 function filterByInput(countries) {
+  const input = document.querySelector('input[type="search"]');
+
+  input.onsearch = () => {
+    console.log(`The term searched for was ${input.value}`);
+  };
   const searchInput = "United";
   const filteredCountries = countries.filter(function (country) {
     return country.name.common.includes(searchInput);
@@ -51,6 +56,12 @@ function filterByInput(countries) {
 
 // 1. filter country names with a static name like united
 
-// 2. get search term from user to be what filter is 
+// 2. countries.filter(function(country) {
+//   return country.name.common.includes(searchTerm);
+// });
 
-// 3. even that filters as soon as you start typing 
+// get search term from user to be what filter is
+
+// listn to text input inside search box (innerhtml) and print hey it changed every time I change whats inside
+
+// 3. event that filters as soon as you start typing
