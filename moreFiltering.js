@@ -6,7 +6,7 @@ const results = getCountriesData;
 
 const inputElement = document.querySelector(".searchBox input");
 
-// Event Listener ----------------------------------------------------
+// Event Listener ----------------------------------------------------------------->
 inputElement.addEventListener("input", function (event) {
   let inputValues = event.target.value.toLowerCase();
   let filteredResults = [];
@@ -18,6 +18,7 @@ inputElement.addEventListener("input", function (event) {
   }
   createCards(filteredResults);
 });
+
 
 //This function creates a card for each country with the img, name of country and a button
 function createCards(countries) {
@@ -53,3 +54,33 @@ function createCards(countries) {
   }
 }
 
+// Checkbox filtering ------------------------------------------------------------>
+const checkedInputs = document.querySelectorAll("#boxFiltering input");
+
+// Add event listener to each checkbox
+checkedInputs.forEach((checkedinput) => {
+  checkedinput.addEventListener("change", function () {
+    // Get an array of checked checkboxes
+    const checkedCheckboxes = Array.from(checkedInputs).filter(
+      (checkedinput) => checkedinput.checked
+    );
+
+    // Get an array of values of the checked checkboxes
+    const checkedValues = checkedCheckboxes.map(
+      (checkedinput) => checkedinput.value
+    );
+
+    // Filter the results based on the checked values
+    let filteredResults = [];
+    if (checkedValues.length > 0) {
+      filteredResults = results.filter((country) => {
+        const name = country.name.common.toLowerCase();
+        return checkedValues.includes(name.charAt(0));
+      });
+    } else {
+      filteredResults = results;
+    }
+
+    createCards(filteredResults);
+  });
+});
