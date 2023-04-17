@@ -45,6 +45,7 @@ body {
 #boxFiltering {
   display: flex;
   justify-content: center;
+  padding-bottom: 1em;
 }
 
 #checkbox {
@@ -66,8 +67,7 @@ body {
 .card-body {
   display:flex;
   flex-direction: column;
-  align-items: center;
-  
+  align-items: center;  
 }
 
 .card-title, .btn, .btn-primary{
