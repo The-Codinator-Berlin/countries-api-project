@@ -26,7 +26,7 @@ body {
 
 .btn:hover {
   background-color: #0d6efd;
-}
+} 
 
 .fade-in-down {
   animation: fade-in-down 2s ease 1;
@@ -61,4 +61,15 @@ body {
   border: solid 2px #0584FC;
   border-radius: 5px;
   width: 20%;
+}
+
+.card-body {
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  
+}
+
+.card-title, .btn, .btn-primary{
+  text-align: center;
 }
