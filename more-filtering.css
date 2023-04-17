@@ -47,6 +47,10 @@ body {
   justify-content: center;
 }
 
+#checkbox {
+  width: 1.5em;
+}
+
 .searchBox {
   display: flex;
   justify-content: center;
