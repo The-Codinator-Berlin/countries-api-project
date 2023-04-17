@@ -8,23 +8,22 @@ const inputElement = document.querySelector(".searchBox input");
 
 // Event Listener ----------------------------------------------------
 inputElement.addEventListener("input", function (event) {
-  // console.log(event.target.value);
-  let inputValues = event.target.value;
-  console.log(inputValues);
-  const filteredResults = results.filter((country) => {
-    const name = country.name.common.toLowerCase();
-    return name.includes(inputValues.toLowerCase());
-  });
-
-  console.log(filteredResults);
+  let inputValues = event.target.value.toLowerCase();
+  let filteredResults = [];
+  if (inputValues) {
+    filteredResults = results.filter((country) => {
+      const name = country.name.common.toLowerCase();
+      return name.startsWith(inputValues);
+    });
+  }
   createCards(filteredResults);
 });
 
 //This function creates a card for each country with the img, name of country and a button
 function createCards(countries) {
+  let container = document.getElementById("container");
+  container.innerText = "";
   for (let i = 0; i < countries.length; i++) {
-    let container = document.getElementById("container");
-
     let cardDiv = document.createElement("div");
     cardDiv.classList.add("card");
     cardDiv.setAttribute("style", "width: 18rem;");
