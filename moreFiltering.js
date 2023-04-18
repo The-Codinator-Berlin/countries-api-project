@@ -19,7 +19,6 @@ inputElement.addEventListener("input", function (event) {
   createCards(filteredResults);
 });
 
-
 //This function creates a card for each country with the img, name of country and a button
 function createCards(countries) {
   let container = document.getElementById("container");
@@ -55,32 +54,34 @@ function createCards(countries) {
 }
 
 // Checkbox filtering ------------------------------------------------------------>
-const checkedInputs = document.querySelectorAll("#boxFiltering input");
+// Show all countries when the page is loaded
+createCards(results);
+
+// Checkbox filtering ------------------------------------------------------------>
+
+// Get all the checkboxes
+const checkboxes = document.querySelectorAll("#boxFiltering input");
 
 // Add event listener to each checkbox
-checkedInputs.forEach((checkedinput) => {
-  checkedinput.addEventListener("change", function () {
+checkboxes.forEach((checkbox) => {
+  checkbox.addEventListener("change", function () {
     // Get an array of checked checkboxes
-    const checkedCheckboxes = Array.from(checkedInputs).filter(
-      (checkedinput) => checkedinput.checked
+    const checkedCheckboxes = Array.from(checkboxes).filter(
+      (checkbox) => checkbox.checked
     );
-
     // Get an array of values of the checked checkboxes
-    const checkedValues = checkedCheckboxes.map(
-      (checkedinput) => checkedinput.value
-    );
-
+    const checkedValues = checkedCheckboxes.map((checkbox) => checkbox.value);
     // Filter the results based on the checked values
     let filteredResults = [];
     if (checkedValues.length > 0) {
       filteredResults = results.filter((country) => {
         const name = country.name.common.toLowerCase();
+        // charAt returns the first character of the name (JS method) and checks if it matches checked box.
         return checkedValues.includes(name.charAt(0));
       });
     } else {
       filteredResults = results;
     }
-
     createCards(filteredResults);
   });
 });
