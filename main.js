@@ -15,15 +15,19 @@ function createTableData(results) {
 
     let flag = document.createElement("img");
     flag.src = results[i].flags.png;
+    flag.className = "animation";
 
     let names = document.createElement("td");
     names.innerText = results[i].name.common;
+    names.className = "animation";
 
     let capital = document.createElement("td");
     capital.innerText = results[i].capital;
+    capital.className = "animation";
 
     let population = document.createElement("td");
     population.innerText = results[i].population;
+    population.className = "animation";
 
     row.appendChild(flag);
     row.appendChild(names);
