@@ -11,8 +11,9 @@
 </head>
 <body style="background-color: #ffc107;">
     <div class="container">
-        <h1 class="text-center fade-in-down">Countries of the world</h1>
 
+        <h1 class="text-center fade-in-down">Countries of the world</h1>
+    <!-- Dropdown menu  -->
     <div class="d-flex">
         <select id="countriesDropDown" class="form-select rounded-0" aria-label="Default select example">
             <option selected style="text-align: center;">Choose an area of the world</option>
@@ -22,11 +23,14 @@
             <option value="Oceania">Oceania</option>
         </select>
     </div> 
+    <!------------------------->
+    <!-- Button to more filtering page  -->
     <div class="d-flex justify-content-center">
         <a class="btn btn-primary rounded-0" href="./more-filtering.html" role="button">More filtering options</a>
     </div>
+    <!-- ---------------------->
     </div>
-    
+    <!-- Table contents  -->
     <div class="container">
     <table class="table table-bordered">
         <thead class="table-dark">
@@ -39,12 +43,9 @@
         </thead>
         <tbody id="tableBody"></tbody>
     </table>
+    <!------------------------------>
     </div>
-
-
-
-
-
+    
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
         integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
         crossorigin="anonymous"></script>
