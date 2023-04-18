@@ -20,25 +20,25 @@ inputElement.addEventListener("input", function (event) {
 });
 
 //This function creates a card for each country with the img, name of country and a button
-function createCards(countries) {
+function createCards(results) {
   let container = document.getElementById("container");
   container.innerText = "";
-  for (let i = 0; i < countries.length; i++) {
+  for (let i = 0; i < results.length; i++) {
     let cardDiv = document.createElement("div");
     cardDiv.classList.add("card");
     cardDiv.setAttribute("style", "width: 18rem;");
 
     let img = document.createElement("img");
     img.classList.add("card-img-top");
-    img.setAttribute("src", countries[i].flags.png);
-    img.setAttribute("alt", countries[i].flags.alt);
+    img.setAttribute("src", results[i].flags.png);
+    img.setAttribute("alt", results[i].flags.alt);
 
     let cardBody = document.createElement("div");
     cardBody.classList.add("card-body");
 
     let imgTitle = document.createElement("h5");
     imgTitle.classList.add("card-title");
-    imgTitle.innerText = countries[i].name.common;
+    imgTitle.innerText = results[i].name.common;
 
     let btn = document.createElement("button");
     btn.classList.add("btn");
@@ -53,7 +53,6 @@ function createCards(countries) {
   }
 }
 
-// Checkbox filtering ------------------------------------------------------------>
 // Show all countries when the page is loaded
 createCards(results);
 
