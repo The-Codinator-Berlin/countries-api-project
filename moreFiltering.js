@@ -77,7 +77,9 @@ function filterResults() {
   let filteredResults = results.filter((country) => {
     const name = country.name.common.toLowerCase();
     const isRegionMatch =
-      selectedRegion === "Region" || country.region === selectedRegion;
+      selectedRegion === "all" ||
+      selectedRegion === "All Regions" ||
+      country.region === selectedRegion;
     const isCheckboxMatch =
       checkedValues.length === 0 || checkedValues.includes(name.charAt(0));
 
@@ -86,6 +88,7 @@ function filterResults() {
 
   createCards(filteredResults);
 }
+
 
 // Event listener for "regions"
 regionsSelect.addEventListener("change", filterResults);
