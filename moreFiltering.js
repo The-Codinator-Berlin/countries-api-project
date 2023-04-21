@@ -7,18 +7,24 @@ console.log(results);
 const inputElement = document.querySelector(".searchBox input");
 
 // Event Listener ----------------------------------------------------------------->
-inputElement.addEventListener("input", function (event) {
+inputElement.addEventListener("input", filterCountries);
+
+function filterCountries(event) {
   let inputValues = event.target.value.toLowerCase();
+  console.log("inputValues :>> ", inputValues === "");
+  if (inputValues === "") {
+    inputValues = "empty";
+  }
   let filteredResults = [];
   if (inputValues) {
     filteredResults = results.filter((country) => {
       const name = country.name.common.toLowerCase();
-      return name.startsWith(inputValues);
+      console.log("inputValues :>> ", inputValues);
+      return name.includes(inputValues) || inputValues == "empty";
     });
   }
   createCards(filteredResults);
-});
-
+}
 function createCards(results) {
   let container = document.getElementById("container");
   container.innerText = "";
@@ -39,16 +45,20 @@ function createCards(results) {
     imgTitle.classList.add("card-title");
     imgTitle.innerText = results[i].name.common;
 
-    let btn = document.createElement("button");
-    btn.classList.add("btn");
-    btn.classList.add("btn-primary");
-    btn.innerText = "Click for more information";
+    //// Link now instead of normal button
+    let a = document.createElement("a");
+    a.setAttribute("id", results[i].name.common);
+    a.classList.add("btn");
+    a.classList.add("btn-primary");
+    a.innerText = "Click for more information";
+    a.setAttribute("href", "openWindow.html"); // search for a way to dinamically create an html address that includes the name of the country
+    a.setAttribute("target", "_blank");
 
     container.appendChild(cardDiv);
     cardDiv.appendChild(img);
     cardDiv.appendChild(cardBody);
     cardBody.appendChild(imgTitle);
-    cardBody.appendChild(btn);
+    cardBody.appendChild(a);
   }
 }
 
@@ -74,6 +84,14 @@ function filterResults() {
   const checkedValues = checkedCheckboxes.map((checkbox) => checkbox.value);
 
   // Filter the results based on the selected region and checked values
+  // Get the country name in lowercase
+  // If "all" is selected, match all regions
+  // If "All Regions" is selected, match all regions
+  // Otherwise, match the selected region
+  // If no checkbox is selected, match all countries
+  // Otherwise, match countries starting with selected letters
+  // Return true if both conditions are met
+  // Pass the filtered results to a function to create elements
   let filteredResults = results.filter((country) => {
     const name = country.name.common.toLowerCase();
     const isRegionMatch =
@@ -89,7 +107,6 @@ function filterResults() {
   createCards(filteredResults);
 }
 
-
 // Event listener for "regions"
 regionsSelect.addEventListener("change", filterResults);
 
@@ -97,3 +114,29 @@ regionsSelect.addEventListener("change", filterResults);
 checkboxes.forEach((checkbox) => {
   checkbox.addEventListener("change", filterResults);
 });
+
+// Modal events / open modal ------------------------------>
+function addEvents() {
+  const allAnchorTags = document.querySelectorAll(".btn");
+  console.log("allAnchorTags :>> ", allAnchorTags.length);
+
+  const modal = document.getElementById("modal");
+  for (let i = 0; i < allAnchorTags.length; i++) {
+    // console.log("allAnchorTags.length :>> ", allAnchorTags[i]);
+    allAnchorTags[i].addEventListener("click", function (e) {
+      console.log("hi");
+      console.log("event :>> ", e.target.id);
+      modal.classList.remove("visually-hidden");
+    });
+  }
+}
+addEvents();
+
+// Modal close event---------------------------------------->
+const closeButton = document.getElementById("closeModal");
+closeButton.addEventListener("click", closeModal);
+
+function closeModal() {
+  const close = document.getElementsByClassName("myModal");
+  close[0].classList.add("visually-hidden");
+}
