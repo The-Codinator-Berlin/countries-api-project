@@ -45,12 +45,18 @@ function createCards(results) {
     imgTitle.classList.add("card-title");
     imgTitle.innerText = results[i].name.common;
 
+    let modalButton = document.createElement("button");
+    modalButton.setAttribute("id", results[i].name.common);
+    modalButton.classList.add("btn");
+    modalButton.classList.add("btn-primary");
+    modalButton.innerText = "Click for more information";
+
     //// Link now instead of normal button
     let a = document.createElement("a");
     a.setAttribute("id", results[i].name.common);
     a.classList.add("btn");
-    a.classList.add("btn-primary");
-    a.innerText = "Click for more information";
+    a.classList.add("btn-light");
+    a.innerText = "Go to country page";
     a.setAttribute("href", "openWindow.html"); // search for a way to dinamically create an html address that includes the name of the country
     a.setAttribute("target", "_blank");
 
@@ -58,6 +64,7 @@ function createCards(results) {
     cardDiv.appendChild(img);
     cardDiv.appendChild(cardBody);
     cardBody.appendChild(imgTitle);
+    cardBody.appendChild(modalButton);
     cardBody.appendChild(a);
   }
 }
@@ -133,10 +140,13 @@ function addEvents() {
 addEvents();
 
 // Modal close event---------------------------------------->
-const closeButton = document.getElementById("closeModal");
-closeButton.addEventListener("click", closeModal);
+function modalCreate() {
+  const closeButton = document.getElementById("closeModal");
+  closeButton.addEventListener("click", closeModal);
 
-function closeModal() {
-  const close = document.getElementsByClassName("myModal");
-  close[0].classList.add("visually-hidden");
+  function closeModal() {
+    const close = document.getElementsByClassName("myModal");
+    close[0].classList.add("visually-hidden");
+  }
 }
+modalCreate();
