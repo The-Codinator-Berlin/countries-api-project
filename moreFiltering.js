@@ -179,11 +179,6 @@ function closeModal() {
   // console.log("close :>> ", close);
 }
 
-const buttonIndex = document.querySelector(".btn-primary");
-buttonIndex.dataset.indexNumber;
-console.log(buttonIndex);
-// console.log(results[0]);
-
 // Assing to each button and id with the index number of that country
 
 // creaate a "populate modal" function, that takes as a parameter the country (results[i])
