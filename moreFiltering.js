@@ -11,7 +11,9 @@
 //     console.log("error :>> ", error);
 //   }
 // }
-// fetchData();
+// fetchData();\
+
+let results = [];
 
 const fetchData = () => {
   const url = "https://restcountries.com/v3.1/all";
@@ -19,7 +21,8 @@ const fetchData = () => {
     .then((response) => {
       return response.json();
     })
-    .then((results) => {
+    .then((json) => {
+      results = json;
       createCards(results);
     })
     .catch((error) => {
