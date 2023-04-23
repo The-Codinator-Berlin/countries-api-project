@@ -1,8 +1,16 @@
-import { getCountriesData } from "./getCountriesData.js";
+// Fetch function ---------------------------------------------->
+async function fetchData() {
+  let url = "https://restcountries.com/v3.1/all";
 
-const results = getCountriesData;
-
-console.log(results);
+  try {
+    let response = await fetch(url);
+    let results = await response.json();
+    console.log("results :>> ", results);
+  } catch (error) {
+    console.log("error :>> ", error);
+  }
+}
+// fetchData();
 
 const inputElement = document.querySelector(".searchBox input");
 
@@ -49,6 +57,7 @@ function createCards(results) {
     modalButton.setAttribute("id", results[i].name.common);
     modalButton.classList.add("btn");
     modalButton.classList.add("btn-primary");
+    modalButton.dataset.indexNumber;
     modalButton.innerText = "Click for more information";
 
     //// Link now instead of normal button
@@ -67,9 +76,9 @@ function createCards(results) {
     cardBody.appendChild(modalButton);
     cardBody.appendChild(a);
   }
+  addEvents();
+  closeEvent();
 }
-
-createCards(results);
 
 // Checkbox filtering ------------------------------------------------------------>
 
@@ -122,8 +131,8 @@ checkboxes.forEach((checkbox) => {
   checkbox.addEventListener("change", filterResults);
 });
 
-// Modal events / open modal ------------------------------>
-function addEvents() {
+// Open modal ------------------------------>
+function addEvents(results) {
   const allAnchorTags = document.querySelectorAll(".btn");
   console.log("allAnchorTags :>> ", allAnchorTags.length);
 
@@ -137,16 +146,34 @@ function addEvents() {
     });
   }
 }
-addEvents();
+
+function populateModal() {}
 
 // Modal close event---------------------------------------->
-function modalCreate() {
+function closeEvent() {
   const closeButton = document.getElementById("closeModal");
   closeButton.addEventListener("click", closeModal);
-
-  function closeModal() {
-    const close = document.getElementsByClassName("myModal");
-    close[0].classList.add("visually-hidden");
-  }
+  closeModal();
 }
-modalCreate();
+
+function closeModal() {
+  const closeButton = document.querySelector(".myModal");
+  closeButton.classList.add("visually-hidden");
+  // console.log("close :>> ", close);
+}
+
+createCards(results);
+
+const buttonIndex = document.querySelector(".btn-primary");
+buttonIndex.dataset.indexNumber;
+console.log(buttonIndex);
+// console.log(results[0]);
+
+// Assing to each button and id with the index number of that country
+
+// creaate a "populate modal" function, that takes as a parameter the country (results[i])
+
+// send the data from createCards, to addEvents , which is where we open the modal.  From there call populateModal, sending the single country (rememberm the single country will correspond to the id number ...which is the index of country)
+
+// do the fetch in the same file. And make it so that is the first function that you call in your file...and actually the only one you call in the global scope .
+// the domino should be something like :1 fetch, inside fetch function call create cards, inside create cards, call add events and maybe cre.....

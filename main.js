@@ -1,8 +1,33 @@
-// Fetch import ------------------------------------------>
-import { getCountriesData } from "./getCountriesData.js";
+// Fetch function -------------------------------------------->
+// async function fetchData() {
+//   const url = "https://restcountries.com/v3.1/all";
 
-const results = getCountriesData;
-// console.log("results", results);
+//   try {
+//     const response = await fetch(url);
+//     console.log("response :>> ", response);
+//     // const results = await response.json();
+//     // console.log("results :>> ", results);
+//   } catch (error) {
+//     console.log("error :>> ", error);
+//   }
+// }
+// fetchData();
+
+const fetchData = () => {
+  const url = "https://restcountries.com/v3.1/all";
+  fetch(url)
+    .then((response) => {
+      return response.json();
+    })
+    .then((results) => {
+      createTableData(results);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+fetchData();
 
 const tableBody = document.getElementById("tableBody");
 
@@ -38,7 +63,7 @@ function createTableData(results) {
   }
 }
 
-createTableData(results);
+// createTableData(results);
 
 // Dropdown/ Event listener------------------------------------------------------------
 
