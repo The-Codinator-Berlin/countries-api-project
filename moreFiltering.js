@@ -1,16 +1,33 @@
-// Fetch function ---------------------------------------------->
-async function fetchData() {
-  let url = "https://restcountries.com/v3.1/all";
+// Fetch function -------------------------------------------->
+// async function fetchData() {
+//   const url = "https://restcountries.com/v3.1/all";
 
-  try {
-    let response = await fetch(url);
-    let results = await response.json();
-    console.log("results :>> ", results);
-  } catch (error) {
-    console.log("error :>> ", error);
-  }
-}
+//   try {
+//     const response = await fetch(url);
+//     console.log("response :>> ", response);
+//     // const results = await response.json();
+//     // console.log("results :>> ", results);
+//   } catch (error) {
+//     console.log("error :>> ", error);
+//   }
+// }
 // fetchData();
+
+const fetchData = () => {
+  const url = "https://restcountries.com/v3.1/all";
+  fetch(url)
+    .then((response) => {
+      return response.json();
+    })
+    .then((results) => {
+      createCards(results);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+fetchData();
 
 const inputElement = document.querySelector(".searchBox input");
 
@@ -161,8 +178,6 @@ function closeModal() {
   closeButton.classList.add("visually-hidden");
   // console.log("close :>> ", close);
 }
-
-createCards(results);
 
 const buttonIndex = document.querySelector(".btn-primary");
 buttonIndex.dataset.indexNumber;
