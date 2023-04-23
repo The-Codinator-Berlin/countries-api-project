@@ -74,7 +74,7 @@ function createCards(results) {
     imgTitle.innerText = results[i].name.common;
 
     let modalButton = document.createElement("button");
-    modalButton.setAttribute("id", results[i].name.common);
+    modalButton.setAttribute("id", i);
     modalButton.classList.add("btn");
     modalButton.classList.add("btn-primary");
     modalButton.dataset.indexNumber;
@@ -182,7 +182,7 @@ function closeModal() {
   // console.log("close :>> ", close);
 }
 
-// Assing to each button and id with the index number of that country
+// Assing to each button and id with the index number of that country / done!
 
 // creaate a "populate modal" function, that takes as a parameter the country (results[i])
 
