@@ -1,36 +1,37 @@
 // Fetch function -------------------------------------------->
-// async function fetchData() {
-//   const url = "https://restcountries.com/v3.1/all";
 
-//   try {
-//     const response = await fetch(url);
-//     console.log("response :>> ", response);
-//     // const results = await response.json();
-//     // console.log("results :>> ", results);
-//   } catch (error) {
-//     console.log("error :>> ", error);
-//   }
-// }
-// fetchData();\
-
-let results = [];
-
-const fetchData = () => {
+async function fetchData() {
   const url = "https://restcountries.com/v3.1/all";
-  fetch(url)
-    .then((response) => {
-      return response.json();
-    })
-    .then((json) => {
-      results = json;
-      createCards(results);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
 
+  try {
+    const response = await fetch(url);
+    // console.log("response :>> ", response);
+    const results = await response.json();
+    console.log("results :>> ", results);
+    createCards(results);
+  } catch (error) {
+    console.log("error :>> ", error);
+  }
+}
 fetchData();
+
+// const fetchData = () => {
+//   const url = "https://restcountries.com/v3.1/all";
+//   fetch(url)
+//     .then((response) => {
+//       return response.json();
+//     })
+//     .then((json) => {
+//       console.log("json :>> ", json);
+//       let results = json;
+//       createCards(results);
+//     })
+//     .catch((error) => {
+//       console.log(error);
+//     });
+// };
+
+// fetchData();
 
 const inputElement = document.querySelector(".searchBox input");
 
@@ -77,6 +78,7 @@ function createCards(results) {
     modalButton.setAttribute("id", i);
     modalButton.classList.add("btn");
     modalButton.classList.add("btn-primary");
+    modalButton.classList.add("openModal");
     modalButton.dataset.indexNumber;
     modalButton.innerText = "Click for more information";
 
@@ -96,7 +98,7 @@ function createCards(results) {
     cardBody.appendChild(modalButton);
     cardBody.appendChild(a);
   }
-  addEvents();
+  addEvents(results);
   closeEvent();
 }
 
@@ -153,21 +155,21 @@ checkboxes.forEach((checkbox) => {
 
 // Open modal ------------------------------>
 function addEvents(results) {
-  const allAnchorTags = document.querySelectorAll(".btn");
-  console.log("allAnchorTags :>> ", allAnchorTags.length);
-
+  // Select all the buttons that open the modal
+  const openModal = document.querySelectorAll(".openModal");
+  // select the html element that contains the modal , which is initally hidden
   const modal = document.getElementById("modal");
-  for (let i = 0; i < allAnchorTags.length; i++) {
-    // console.log("allAnchorTags.length :>> ", allAnchorTags[i]);
-    allAnchorTags[i].addEventListener("click", function (e) {
-      console.log("hi");
-      console.log("event :>> ", e.target.id);
+  // Create a loop to iterate over the array openModal, and assign an event to each  button
+  for (let i = 0; i < openModal.length; i++) {
+    openModal[i].addEventListener("click", function (e) {
+      // populateModal(results[e.target.id]);
       modal.classList.remove("visually-hidden");
+      console.log("you clicked :>> ", results[e.target.id]);
+      const clickedCountry = results[e.target.id];
+      populateModal(clickedCountry);
     });
   }
 }
-
-function populateModal() {}
 
 // Modal close event---------------------------------------->
 function closeEvent() {
@@ -179,7 +181,38 @@ function closeEvent() {
 function closeModal() {
   const closeButton = document.querySelector(".myModal");
   closeButton.classList.add("visually-hidden");
-  // console.log("close :>> ", close);
+}
+
+function populateModal(clickedCountry) {
+  console.log("polate info from", clickedCountry);
+  // const modalContent = document.getElementsByClassName("myModal-content");
+
+  // const modalContent = document.querySelector(".myModal-content");
+
+  // console.log("modalContent :>> ", modalContent);
+
+  // modalContent.innerText = "";
+  // for (let i = 0; i < results.length; i++) {
+  //   let modalDiv = document.createElement("div");
+  //   modalDiv.classList.add("modalDiv");
+
+  //   let modalImgDiv = document.createElement("div");
+  //   modalImgDiv.classList.add("modalImgDiv");
+
+  //   let modalImg = document.createElement("img");
+  //   modalImg.classList.add("modalIMG");
+  //   modalImg.setAttribute("src", results[i].coatOfArms.png);
+  //   modalImg.setAttribute("alt", results[i].coatOfArms.alt);
+
+  //   let headingFour = document.createElement("h4");
+  //   headingFour.classList.add("modalTitle");
+  //   headingFour.innerText = results[i].name.common;
+
+  //   modalContent.appendChild(modalDiv);
+  //   modalContent.appendChild(modalImgDiv);
+  //   modalDiv.appendChild(headingFour);
+  //   modalContent.appendChild(modalImg);
+  // }
 }
 
 // Assing to each button and id with the index number of that country / done!
@@ -190,3 +223,14 @@ function closeModal() {
 
 // do the fetch in the same file. And make it so that is the first function that you call in your file...and actually the only one you call in the global scope .
 // the domino should be something like :1 fetch, inside fetch function call create cards, inside create cards, call add events and maybe cre.....
+
+//Build a search by input filter :
+//1st add an event to the search  input
+//in the callback of the addEventListener function, insert a console.log that you have to see every time you press a key. If not, investigate why.
+
+//2) insert a console.log that every time you type, shows the value of the text typed in the console.
+
+//3) create a function (e.g. filterByText) that receives as parameter the array of results.
+// this functions needs to know the value of the text typed (find the element input, and use the .value property)
+// using .filter(), loop over the results array, and using the value of the input as criteria , create an array with the countries its name matches the text.
+// call the createCards() with the array of filtered countries
