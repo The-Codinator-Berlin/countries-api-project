@@ -15,7 +15,7 @@ async function fetchData() {
 }
 fetchData();
 
-// Second type of fetch here:
+//NOTE -  Second type of fetch here:
 //#region
 // const fetchData = () => {
 //   const url = "https://restcountries.com/v3.1/all";
@@ -44,41 +44,44 @@ function addSearchEvent(results) {
     filterByText(results);
   });
 }
+
+//NOTE - Version 1
+// SearchBar filtering
 function filterByText(results) {
   const searchInputElement = document.querySelector(".searchB");
   const textInput = searchInputElement.value;
-  // console.log("textInput :>> ", textInput);
-  const filteredTextInput = results.filter((countries) => {
-    if (countries.name.common.toLowerCase() === textInput) {
+  const filteredCountriesByInput = results.filter((countries) => {
+    const countriesToLowerCase = countries.name.common.toLowerCase();
+    if (countriesToLowerCase.includes(textInput.toLowerCase())) {
       return true;
     } else {
-      return false;
+      console.log("No matching countries, sorry!");
     }
   });
-
-  //TODO -
-  //a) //create a variable that is gonna store the result of apling the function filter to the array of results.
-  //B) inside the callback of the filter function (lookup the syntax), in the return, you express a condition that when it is true, it will store that element inside the array
-  //B.1) CONSOLE LOG THE VARIABLE YOU ARE USING!
-  //C) call the create table function with the variable that contains the filtered results
-
-  // console.log("filteredTextInput", filteredTextInput);
-  // const filteredTextInput = results.filter((textinput) => {
-  //   return
-  // });
+  createCards(filteredCountriesByInput);
+  console.log("filteredCountriesByInput :>> ", filteredCountriesByInput);
 }
 
-//Build a search by input filter :
-//1st add an event to the search  input
-//in the callback of the addEventListener function, insert a console.log that you have to see every time you press a key. If not, investigate why./
-//DONE
-
-//2) insert a console.log that every time you type, shows the value of the text typed in the console.//DONE
-
-//3) create a function (e.g. filterByText) that receives as parameter the array of results.
-// this functions needs to know the value of the text typed (find the element input, and use the .value property)
-// using .filter(), loop over the results array, and using the value of the input as criteria , create an array with the countries its name matches the text.
-// call the createCards() with the array of filtered countries
+//#region
+// // NOTE - Version 2
+// // // Function filterByText with results as a parameter
+// function filterByText(results) {
+//   // Search input being selected
+//   const searchInputElement = document.querySelector(".searchB");
+//   // Saving the value of whatever value is being inserted into the searchbar
+//   const textInput = searchInputElement.value;
+//   // Function using filter() method looping over the wholse array of countries and storing the singular countries that have been filtered in the variable filteredCountriesByInput
+//   const filteredCountriesByInput = results.filter((singleResult) => {
+//     // This function will return a single result (single country) which has the common name, transfromed into lower case that matches the textInput typed in the search input, also transforming it to lower case. This means that when they are both toLowerCase that they will match and not throw any errors. It also means it doesn't matter if the user types upper or lower case and the result will be the same.
+//     return singleResult.name.common
+//       .toLowerCase()
+//       .includes(textInput.toLowerCase());
+//   });
+//   // createCards is then called, passing filteredCountriesByInput so that the filtered results create the cards according the the search input.
+//   createCards(filteredCountriesByInput);
+//   console.log("filteredCountriesByInput :>> ", filteredCountriesByInput);
+// } //
+//#endregion
 
 function createCards(results) {
   let container = document.getElementById("container");
@@ -248,8 +251,3 @@ function populateModal(clickedCountry) {
   modalContent.appendChild(closeModalButton);
   closeEvent();
 }
-
-// send the data from createCards, to addEvents , which is where we open the modal.  From there call populateModal, sending the single country (rememberm the single country will correspond to the id number ...which is the index of country)
-
-// do the fetch in the same file. And make it so that is the first function that you call in your file...and actually the only one you call in the global scope .
-// the domino should be something like :1 fetch, inside fetch function call create cards, inside create cards, call add events and maybe cre.....
