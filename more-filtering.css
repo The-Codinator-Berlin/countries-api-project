@@ -147,11 +147,17 @@ body {
   background-color: rgba(0, 0, 0, 0.4);
 }
 .myModal-content {
+  text-align: center;
+  padding: 2em;
   background-color: #fefefe;
   margin: 15% auto; /* 15% from the top and centered */
   padding: 20px;
   border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
+  width: 40%; /* Could be more or less, depending on screen size */
+}
+
+#closeModal {
+  margin-top: 2em;
 }
 
 .close {
