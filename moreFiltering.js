@@ -7,7 +7,7 @@ async function fetchData() {
     const response = await fetch(url);
     // console.log("response :>> ", response);
     const results = await response.json();
-    console.log("results :>> ", results);
+    // console.log("results :>> ", results);
     createCards(results);
   } catch (error) {
     console.log("error :>> ", error);
@@ -15,6 +15,8 @@ async function fetchData() {
 }
 fetchData();
 
+// Second type of fetch here:
+//#region
 // const fetchData = () => {
 //   const url = "https://restcountries.com/v3.1/all";
 //   fetch(url)
@@ -32,28 +34,52 @@ fetchData();
 // };
 
 // fetchData();
+//#endregion
 
-const inputElement = document.querySelector(".searchBox input");
-
-// Event Listener ----------------------------------------------------------------->
-inputElement.addEventListener("input", filterCountries);
-
-function filterCountries(event) {
-  let inputValues = event.target.value.toLowerCase();
-  console.log("inputValues :>> ", inputValues === "");
-  if (inputValues === "") {
-    inputValues = "empty";
-  }
-  let filteredResults = [];
-  if (inputValues) {
-    filteredResults = results.filter((country) => {
-      const name = country.name.common.toLowerCase();
-      console.log("inputValues :>> ", inputValues);
-      return name.includes(inputValues) || inputValues == "empty";
-    });
-  }
-  createCards(filteredResults);
+// SearchBar Event Listener ----------------------------------------------------------------->
+function addSearchEvent(results) {
+  const inputElement = document.querySelector(".searchB");
+  inputElement.addEventListener("input", (e) => {
+    // console.log("printing input value", inputElement.value);
+    filterByText(results);
+  });
 }
+function filterByText(results) {
+  const searchInputElement = document.querySelector(".searchB");
+  const textInput = searchInputElement.value;
+  // console.log("textInput :>> ", textInput);
+  const filteredTextInput = results.filter((countries) => {
+    if (countries.name.common.toLowerCase() === textInput) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+
+  //TODO -
+  //a) //create a variable that is gonna store the result of apling the function filter to the array of results.
+  //B) inside the callback of the filter function (lookup the syntax), in the return, you express a condition that when it is true, it will store that element inside the array
+  //B.1) CONSOLE LOG THE VARIABLE YOU ARE USING!
+  //C) call the create table function with the variable that contains the filtered results
+
+  // console.log("filteredTextInput", filteredTextInput);
+  // const filteredTextInput = results.filter((textinput) => {
+  //   return
+  // });
+}
+
+//Build a search by input filter :
+//1st add an event to the search  input
+//in the callback of the addEventListener function, insert a console.log that you have to see every time you press a key. If not, investigate why./
+//DONE
+
+//2) insert a console.log that every time you type, shows the value of the text typed in the console.//DONE
+
+//3) create a function (e.g. filterByText) that receives as parameter the array of results.
+// this functions needs to know the value of the text typed (find the element input, and use the .value property)
+// using .filter(), loop over the results array, and using the value of the input as criteria , create an array with the countries its name matches the text.
+// call the createCards() with the array of filtered countries
+
 function createCards(results) {
   let container = document.getElementById("container");
   container.innerText = "";
@@ -82,7 +108,7 @@ function createCards(results) {
     modalButton.dataset.indexNumber;
     modalButton.innerText = "Click for more information";
 
-    //// Link now instead of normal button
+    // !-- Link now instead of normal button-->
     let a = document.createElement("a");
     a.setAttribute("id", results[i].name.common);
     a.classList.add("btn");
@@ -99,7 +125,8 @@ function createCards(results) {
     cardBody.appendChild(a);
   }
   addEvents(results);
-  closeEvent();
+  addSearchEvent(results);
+  // closeEvent(); //NOTE we move this function call to populateModal() function, because we need to create the button first, before adding the event to close it
 }
 
 // Checkbox filtering ------------------------------------------------------------>
@@ -164,7 +191,9 @@ function addEvents(results) {
     openModal[i].addEventListener("click", function (e) {
       // populateModal(results[e.target.id]);
       modal.classList.remove("visually-hidden");
-      console.log("you clicked :>> ", results[e.target.id]);
+      // console.log("you clicked :>> ", results[e.target.id]);
+
+      // ClickedCountry is representing a single country which is passed into populateModal to be able to bulid the modal with info from the API.
       const clickedCountry = results[e.target.id];
       populateModal(clickedCountry);
     });
@@ -175,7 +204,6 @@ function addEvents(results) {
 function closeEvent() {
   const closeButton = document.getElementById("closeModal");
   closeButton.addEventListener("click", closeModal);
-  closeModal();
 }
 
 function closeModal() {
@@ -183,54 +211,45 @@ function closeModal() {
   closeButton.classList.add("visually-hidden");
 }
 
+// Populating modal once the button is clicked with info for just that country that relates to the index of that country
 function populateModal(clickedCountry) {
-  console.log("polate info from", clickedCountry);
-  // const modalContent = document.getElementsByClassName("myModal-content");
+  console.log("clickedCountry :>> ", clickedCountry);
+  const modalContent = document.querySelector(".myModal-content");
 
-  // const modalContent = document.querySelector(".myModal-content");
+  modalContent.innerText = ""; // this line sets all the content inside myModal-content to an empty string, removing everything inside
+  let modalDiv = document.createElement("div");
+  modalDiv.classList.add("modalDiv");
 
-  // console.log("modalContent :>> ", modalContent);
+  let modalImgDiv = document.createElement("div");
+  modalImgDiv.classList.add("modalImgDiv");
 
-  // modalContent.innerText = "";
-  // for (let i = 0; i < results.length; i++) {
-  //   let modalDiv = document.createElement("div");
-  //   modalDiv.classList.add("modalDiv");
+  let modalImg = document.createElement("img");
+  modalImg.classList.add("modalIMG");
+  modalImg.setAttribute("src", clickedCountry.coatOfArms.png);
+  modalImg.setAttribute("alt", clickedCountry.coatOfArms.alt);
+  modalImg.setAttribute("style", "width:30em");
 
-  //   let modalImgDiv = document.createElement("div");
-  //   modalImgDiv.classList.add("modalImgDiv");
+  let headingFour = document.createElement("h4");
+  headingFour.classList.add("modalTitle");
+  headingFour.innerText = "Coat of Arms";
 
-  //   let modalImg = document.createElement("img");
-  //   modalImg.classList.add("modalIMG");
-  //   modalImg.setAttribute("src", results[i].coatOfArms.png);
-  //   modalImg.setAttribute("alt", results[i].coatOfArms.alt);
+  const closeModalButton = document.createElement("button");
 
-  //   let headingFour = document.createElement("h4");
-  //   headingFour.classList.add("modalTitle");
-  //   headingFour.innerText = results[i].name.common;
+  // NOTE .classList.add admits only one class at a time (space between class names implies more than one class)
 
-  //   modalContent.appendChild(modalDiv);
-  //   modalContent.appendChild(modalImgDiv);
-  //   modalDiv.appendChild(headingFour);
-  //   modalContent.appendChild(modalImg);
-  // }
+  closeModalButton.setAttribute("class", "btn btn-secondary");
+  closeModalButton.setAttribute("id", "closeModal");
+  closeModalButton.innerText = "close";
+
+  modalContent.appendChild(modalDiv);
+  modalContent.appendChild(modalImgDiv);
+  modalDiv.appendChild(headingFour);
+  modalContent.appendChild(modalImg);
+  modalContent.appendChild(closeModalButton);
+  closeEvent();
 }
-
-// Assing to each button and id with the index number of that country / done!
-
-// creaate a "populate modal" function, that takes as a parameter the country (results[i])
 
 // send the data from createCards, to addEvents , which is where we open the modal.  From there call populateModal, sending the single country (rememberm the single country will correspond to the id number ...which is the index of country)
 
 // do the fetch in the same file. And make it so that is the first function that you call in your file...and actually the only one you call in the global scope .
 // the domino should be something like :1 fetch, inside fetch function call create cards, inside create cards, call add events and maybe cre.....
-
-//Build a search by input filter :
-//1st add an event to the search  input
-//in the callback of the addEventListener function, insert a console.log that you have to see every time you press a key. If not, investigate why.
-
-//2) insert a console.log that every time you type, shows the value of the text typed in the console.
-
-//3) create a function (e.g. filterByText) that receives as parameter the array of results.
-// this functions needs to know the value of the text typed (find the element input, and use the .value property)
-// using .filter(), loop over the results array, and using the value of the input as criteria , create an array with the countries its name matches the text.
-// call the createCards() with the array of filtered countries
