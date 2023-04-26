@@ -9,6 +9,8 @@ async function fetchData() {
     const results = await response.json();
     // console.log("results :>> ", results);
     createCards(results);
+    addEvents(results);
+    addSearchEvent(results);
   } catch (error) {
     console.log("error :>> ", error);
   }
@@ -44,7 +46,6 @@ function addSearchEvent(results) {
     filterByText(results);
   });
 }
-
 //NOTE - Version 1
 // SearchBar filtering
 function filterByText(results) {
@@ -62,8 +63,8 @@ function filterByText(results) {
   console.log("filteredCountriesByInput :>> ", filteredCountriesByInput);
 }
 
-//#region
 // // NOTE - Version 2
+//#region
 // // // Function filterByText with results as a parameter
 // function filterByText(results) {
 //   // Search input being selected
@@ -84,104 +85,79 @@ function filterByText(results) {
 //#endregion
 
 function createCards(results) {
+  // console.log("results :>> ", results);
+  //NOTE - Moved contained variable and emptying container line to the top as h5 would not be able to be created otherwise.
   let container = document.getElementById("container");
   container.innerText = "";
-  for (let i = 0; i < results.length; i++) {
-    let cardDiv = document.createElement("div");
-    cardDiv.classList.add("card");
-    cardDiv.setAttribute("style", "width: 18rem;");
+  if (results.length === 0) {
+    let noCountryMessage = document.createElement("h5");
+    noCountryMessage.innerText =
+      "Sorry! There are no matching results for your search :(";
 
-    let img = document.createElement("img");
-    img.classList.add("card-img-top");
-    img.setAttribute("src", results[i].flags.png);
-    img.setAttribute("alt", results[i].flags.alt);
+    container.appendChild(noCountryMessage);
+  } else {
+    for (let i = 0; i < results.length; i++) {
+      let cardDiv = document.createElement("div");
+      cardDiv.classList.add("card");
+      cardDiv.setAttribute("style", "width: 18rem;");
 
-    let cardBody = document.createElement("div");
-    cardBody.classList.add("card-body");
+      let img = document.createElement("img");
+      img.classList.add("card-img-top");
+      img.setAttribute("src", results[i].flags.png);
+      img.setAttribute("alt", results[i].flags.alt);
 
-    let imgTitle = document.createElement("h5");
-    imgTitle.classList.add("card-title");
-    imgTitle.innerText = results[i].name.common;
+      let cardBody = document.createElement("div");
+      cardBody.classList.add("card-body");
 
-    let modalButton = document.createElement("button");
-    modalButton.setAttribute("id", i);
-    modalButton.classList.add("btn");
-    modalButton.classList.add("btn-primary");
-    modalButton.classList.add("openModal");
-    modalButton.dataset.indexNumber;
-    modalButton.innerText = "Click for more information";
+      let imgTitle = document.createElement("h5");
+      imgTitle.classList.add("card-title");
 
-    // !-- Link now instead of normal button-->
-    let a = document.createElement("a");
-    a.setAttribute("id", results[i].name.common);
-    a.classList.add("btn");
-    a.classList.add("btn-light");
-    a.innerText = "Go to country page";
-    a.setAttribute("href", "openWindow.html"); // search for a way to dinamically create an html address that includes the name of the country
-    a.setAttribute("target", "_blank");
+      imgTitle.innerText = results[i].name.common;
 
-    container.appendChild(cardDiv);
-    cardDiv.appendChild(img);
-    cardDiv.appendChild(cardBody);
-    cardBody.appendChild(imgTitle);
-    cardBody.appendChild(modalButton);
-    cardBody.appendChild(a);
+      let modalButton = document.createElement("button");
+      modalButton.setAttribute("id", i);
+      modalButton.classList.add("btn");
+      modalButton.classList.add("btn-primary");
+      modalButton.classList.add("openModal");
+      modalButton.dataset.indexNumber;
+      modalButton.innerText = "Click for more information";
+
+      // !-- Link now instead of normal button-->
+      let a = document.createElement("a");
+      a.setAttribute("id", results[i].name.common);
+      a.classList.add("btn");
+      a.classList.add("btn-light");
+      a.innerText = "Go to country page";
+      a.setAttribute("href", "openWindow.html"); // search for a way to dinamically create an html address that includes the name of the country
+      a.setAttribute("target", "_blank");
+
+      container.appendChild(cardDiv);
+      cardDiv.appendChild(img);
+      cardDiv.appendChild(cardBody);
+      cardBody.appendChild(imgTitle);
+      cardBody.appendChild(modalButton);
+      cardBody.appendChild(a);
+    }
   }
-  addEvents(results);
-  addSearchEvent(results);
-  // closeEvent(); //NOTE we move this function call to populateModal() function, because we need to create the button first, before adding the event to close it
+  //NOTE - I moved the addEvents(results); & addSearchEvent(results); directly into the fetch function so that they have access to the results stright away, fixing the issue with searchBar not repolulation all results when input cleared.
+
+  //NOTE we move closeEvent();/ this function call to populateModal() function, because we need to create the button first, before adding the event to close it.
 }
+//TODO - Dropdown filtering
+// Regions dropdown event/ filtering ------------------------------------------------------------>
+// function addRegionEvent(results) {
+//   const regionsSelect = document.querySelectorAll(".dropDownSelections");
+//   regionsSelect.forEach((selection) => {
+//     selection.addEventListener("change", () => {});
+//     addRegionEvent(results);
+//   });
+// }
 
-// Checkbox filtering ------------------------------------------------------------>
-
-const checkboxes = document.querySelectorAll("#boxFiltering input");
-
-const regionsSelect = document.getElementById("regions");
-
-// Function to filter results based on the selected region and checked checkboxes
-function filterResults() {
-  // Get the selected region value
-  const selectedRegion = regionsSelect.value;
-
-  // Get an array of checked checkboxes
-  const checkedCheckboxes = Array.from(checkboxes).filter(
-    (checkbox) => checkbox.checked
-  );
-
-  // Get an array of values of the checked checkboxes
-  const checkedValues = checkedCheckboxes.map((checkbox) => checkbox.value);
-
-  // Filter the results based on the selected region and checked values
-  // Get the country name in lowercase
-  // If "all" is selected, match all regions
-  // If "All Regions" is selected, match all regions
-  // Otherwise, match the selected region
-  // If no checkbox is selected, match all countries
-  // Otherwise, match countries starting with selected letters
-  // Return true if both conditions are met
-  // Pass the filtered results to a function to create elements
-  let filteredResults = results.filter((country) => {
-    const name = country.name.common.toLowerCase();
-    const isRegionMatch =
-      selectedRegion === "all" ||
-      selectedRegion === "All Regions" ||
-      country.region === selectedRegion;
-    const isCheckboxMatch =
-      checkedValues.length === 0 || checkedValues.includes(name.charAt(0));
-
-    return isRegionMatch && isCheckboxMatch;
-  });
-
-  createCards(filteredResults);
-}
-
-// Event listener for "regions"
-regionsSelect.addEventListener("change", filterResults);
-
-// Add event listener to each checkbox
-checkboxes.forEach((checkbox) => {
-  checkbox.addEventListener("change", filterResults);
-});
+// Checkbox filtering ---------------------->
+// function addToCheckboxes() {
+//   const allBoxes = document.querySelectorAll('input[type="checkbox"]#checkbox');
+//   allBoxes.forEach((checkbox) => console.log(element));
+// }
 
 // Open modal ------------------------------>
 function addEvents(results) {
