@@ -10,6 +10,8 @@ async function fetchData() {
     // console.log("results :>> ", results);
     createCards(results);
     addEvents(results);
+    addRegionEvent(results);
+    addEventToAllOption(results);
     addSearchEvent(results);
   } catch (error) {
     console.log("error :>> ", error);
@@ -60,7 +62,7 @@ function filterByText(results) {
     }
   });
   createCards(filteredCountriesByInput);
-  console.log("filteredCountriesByInput :>> ", filteredCountriesByInput);
+  // console.log("filteredCountriesByInput :>> ", filteredCountriesByInput);
 }
 
 // // NOTE - Version 2
@@ -84,6 +86,7 @@ function filterByText(results) {
 // } //
 //#endregion
 
+//SECTION - Creates all cards using DOM manipulation using results fromt the API
 function createCards(results) {
   // console.log("results :>> ", results);
   //NOTE - Moved contained variable and emptying container line to the top as h5 would not be able to be created otherwise.
@@ -120,7 +123,7 @@ function createCards(results) {
       modalButton.classList.add("btn-primary");
       modalButton.classList.add("openModal");
       modalButton.dataset.indexNumber;
-      modalButton.innerText = "Click for more information";
+      modalButton.innerText = "Click to see the Coat of Arms";
 
       // !-- Link now instead of normal button-->
       let a = document.createElement("a");
@@ -143,21 +146,40 @@ function createCards(results) {
 
   //NOTE we move closeEvent();/ this function call to populateModal() function, because we need to create the button first, before adding the event to close it.
 }
-//TODO - Dropdown filtering
-// Regions dropdown event/ filtering ------------------------------------------------------------>
-// function addRegionEvent(results) {
-//   const regionsSelect = document.querySelectorAll(".dropDownSelections");
-//   regionsSelect.forEach((selection) => {
-//     selection.addEventListener("change", () => {});
-//     addRegionEvent(results);
-//   });
-// }
+//SECTION - Regions dropdown event/ filtering
+// ------------------------------------------------------------>
+function addRegionEvent(results) {
+  const regionsSelect = document.getElementById("regions");
+  regionsSelect.addEventListener("change", function (event) {
+    // console.log(event.target.value);
+    //NOTE - Added an if/else so that All regions when selscted will call createCards with all the results, in turn displaying all cards again after having used another selection.
+    if (event.target.value === "All Regions") {
+      createCards(results);
+    } else {
+      regionDropdownFilter(results);
+    }
+  });
+}
 
-// Checkbox filtering ---------------------->
-// function addToCheckboxes() {
-//   const allBoxes = document.querySelectorAll('input[type="checkbox"]#checkbox');
-//   allBoxes.forEach((checkbox) => console.log(element));
-// }
+function regionDropdownFilter(results) {
+  const getRegion = document.getElementById("regions");
+
+  const selectedRegion = getRegion.value;
+  // console.log("selectedRegion :>> ", selectedRegion);
+
+  const filteredCountries = [];
+  for (let i = 0; i < results.length; i++) {
+    if (selectedRegion === results[i].region) {
+      // console.log(results[i].name);
+      filteredCountries.push(results[i]);
+    } else {
+      console.log("There are more countries, but not in this region!");
+    }
+  }
+  // console.log("filteredCountries :>> ", filteredCountries);
+  createCards(filteredCountries);
+}
+// ------------------------------------------------------------------------>
 
 // Open modal ------------------------------>
 function addEvents(results) {
