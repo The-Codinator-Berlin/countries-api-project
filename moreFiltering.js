@@ -190,39 +190,45 @@ function closeModal() {
   closeButton.classList.add("visually-hidden");
 }
 
-// Populating modal once the button is clicked with info for just that country that relates to the index of that country
+// Populating modal once the button is clicked with info for just that country that relates to the index of that country.
 function populateModal(clickedCountry) {
   console.log("clickedCountry :>> ", clickedCountry);
   const modalContent = document.querySelector(".myModal-content");
+  const headingFour = document.createElement("h4");
 
-  modalContent.innerText = ""; // this line sets all the content inside myModal-content to an empty string, removing everything inside
+  // this line sets all the content inside myModal-content to an empty string, removing everything inside.
+  modalContent.innerText = "";
   let modalDiv = document.createElement("div");
   modalDiv.classList.add("modalDiv");
 
   let modalImgDiv = document.createElement("div");
   modalImgDiv.classList.add("modalImgDiv");
 
+  //NOTE - Added if/else so that if there is not a png for the coat of arms in the API for a specific country then it will display a h4 with a message.
   let modalImg = document.createElement("img");
-  modalImg.classList.add("modalIMG");
-  modalImg.setAttribute("src", clickedCountry.coatOfArms.png);
-  modalImg.setAttribute("alt", clickedCountry.coatOfArms.alt);
-  modalImg.setAttribute("style", "width:30em");
+  if (clickedCountry.coatOfArms.png) {
+    modalImg.classList.add("modalIMG");
+    modalImg.setAttribute("src", clickedCountry.coatOfArms.png);
+    modalImg.setAttribute("alt", clickedCountry.coatOfArms.alt);
+    modalImg.setAttribute("style", "width:30em");
+    headingFour.classList.add("modalTitle");
+    headingFour.innerText = "Coat of Arms";
+  } else {
+    headingFour.classList.add("modalTitle");
+    headingFour.innerText =
+      "Sorry there is no Coat of Arms image for this country!";
+  }
 
-  let headingFour = document.createElement("h4");
-  headingFour.classList.add("modalTitle");
-  headingFour.innerText = "Coat of Arms";
+  // NOTE to self....classList.add admits only one class at a time (space between class names implies more than one class)
 
   const closeModalButton = document.createElement("button");
-
-  // NOTE .classList.add admits only one class at a time (space between class names implies more than one class)
-
   closeModalButton.setAttribute("class", "btn btn-secondary");
   closeModalButton.setAttribute("id", "closeModal");
   closeModalButton.innerText = "close";
 
   modalContent.appendChild(modalDiv);
   modalContent.appendChild(modalImgDiv);
-  modalDiv.appendChild(headingFour);
+  modalContent.appendChild(headingFour);
   modalContent.appendChild(modalImg);
   modalContent.appendChild(closeModalButton);
   closeEvent();
