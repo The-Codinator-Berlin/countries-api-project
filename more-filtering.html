@@ -23,12 +23,12 @@
         <input class="searchB" type="search" placeholder="Search Country..">
 
             <select name="regions" id="regions">
-                <option selected style="text-align: center;">All Regions</option>
-                <option value="Africa">Africa</option>
-                <option value="Americas">Americas</option>
-                <option value="Asia">Asia</option>
-                <option value="Europe">Europe</option>
-                <option value="Oceania">Oceania</option>
+                <option id="all" selected class="dropdownSelections" value="All Regions">All Regions</option>
+                <option class="dropdownSelections" value="Africa">Africa</option>
+                <option class="dropdownSelections" value="Americas">Americas</option>
+                <option class="dropdownSelections" value="Asia">Asia</option>
+                <option class="dropdownSelections" value="Europe">Europe</option>
+                <option class="dropdownSelections" value="Oceania">Oceania</option>
         
             </select>
         
@@ -155,8 +155,8 @@
 
     <div id="modal" class="myModal visually-hidden">
         <div class="myModal-content">
-            <h1>my modal</h1>
-            <button class="btn btn-secondary"id="closeModal">Close Button</button>
+            
+            <!-- <button class="btn btn-secondary"id="closeModal">Close Button</button> -->
         </div>
                 <!-- <tr>
                     <th scope="col">Coat of Arms</th>
