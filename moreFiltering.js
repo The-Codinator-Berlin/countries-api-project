@@ -1,4 +1,4 @@
-// Fetch function -------------------------------------------->
+//SECTION - Fetch function -------------------------------------------->
 
 async function fetchData() {
   const url = "https://restcountries.com/v3.1/all";
@@ -18,8 +18,8 @@ async function fetchData() {
   }
 }
 fetchData();
-
-//NOTE -  Second type of fetch here:
+// ------------------------------------>
+//SECTION - Second type of fetch here:
 //#region
 // const fetchData = () => {
 //   const url = "https://restcountries.com/v3.1/all";
@@ -39,7 +39,7 @@ fetchData();
 
 // fetchData();
 //#endregion
-
+// ------------------------------------>
 // SearchBar Event Listener ----------------------------------------------------------------->
 function addSearchEvent(results) {
   const inputElement = document.querySelector(".searchB");
@@ -48,7 +48,7 @@ function addSearchEvent(results) {
     filterByText(results);
   });
 }
-//NOTE - Version 1
+//SECTION - Version 1
 // SearchBar filtering
 function filterByText(results) {
   const searchInputElement = document.querySelector(".searchB");
@@ -65,7 +65,7 @@ function filterByText(results) {
   // console.log("filteredCountriesByInput :>> ", filteredCountriesByInput);
 }
 
-// // NOTE - Version 2
+// //SECTION - SearchBar filtering Version 2 with line by line explination.
 //#region
 // // // Function filterByText with results as a parameter
 // function filterByText(results) {
@@ -125,7 +125,9 @@ function createCards(results) {
       modalButton.dataset.indexNumber;
       modalButton.innerText = "Click to see the Coat of Arms";
 
-      // !-- Link now instead of normal button-->
+      //SECTION - Link button to open info in new window for further development at a later date
+      //#region
+      //NOTE - ! -- Link now instead of normal button-->
       let a = document.createElement("a");
       a.setAttribute("id", results[i].name.common);
       a.classList.add("btn");
@@ -133,16 +135,17 @@ function createCards(results) {
       a.innerText = "Go to country page";
       a.setAttribute("href", "openWindow.html"); // search for a way to dinamically create an html address that includes the name of the country
       a.setAttribute("target", "_blank");
-
+      //#endregion
+      // --------------------------------------------------------->
       container.appendChild(cardDiv);
       cardDiv.appendChild(img);
       cardDiv.appendChild(cardBody);
       cardBody.appendChild(imgTitle);
       cardBody.appendChild(modalButton);
-      cardBody.appendChild(a);
+      // cardBody.appendChild(a); - goes with link button...
     }
   }
-  //NOTE - I moved the addEvents(results); & addSearchEvent(results); directly into the fetch function so that they have access to the results stright away, fixing the issue with searchBar not repolulation all results when input cleared.
+  //NOTE - I moved the addEvents(results); & addSearchEvent(results); directly into the fetch function so that they have access to the results stright away, fixing the issue with searchBar repolulating all results when input cleared.
 
   //NOTE we move closeEvent();/ this function call to populateModal() function, because we need to create the button first, before adding the event to close it.
 }
@@ -160,7 +163,7 @@ function addRegionEvent(results) {
     }
   });
 }
-
+// Filter ---------------------------------------------------->
 function regionDropdownFilter(results) {
   const getRegion = document.getElementById("regions");
 
@@ -181,7 +184,7 @@ function regionDropdownFilter(results) {
 }
 // ------------------------------------------------------------------------>
 
-// Open modal ------------------------------>
+//!SECTION Open modal ------------------------------>
 function addEvents(results) {
   // Select all the buttons that open the modal
   const openModal = document.querySelectorAll(".openModal");
@@ -201,7 +204,7 @@ function addEvents(results) {
   }
 }
 
-// Modal close event---------------------------------------->
+//SECTION - Modal close event---------------------------------------->
 function closeEvent() {
   const closeButton = document.getElementById("closeModal");
   closeButton.addEventListener("click", closeModal);
@@ -232,7 +235,7 @@ function populateModal(clickedCountry) {
     modalImg.classList.add("modalIMG");
     modalImg.setAttribute("src", clickedCountry.coatOfArms.png);
     modalImg.setAttribute("alt", clickedCountry.coatOfArms.alt);
-    modalImg.setAttribute("style", "width:30em");
+    modalImg.setAttribute("style", "width:20em");
     headingFour.classList.add("modalTitle");
     headingFour.innerText = "Coat of Arms";
   } else {
