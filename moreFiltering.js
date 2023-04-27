@@ -41,21 +41,25 @@ fetchData();
 //#endregion
 // ------------------------------------>
 
-//TODO - Combined filter function ----->
+// /.SECTION - Combined filter function ----------------------->
 //#region
-// function combinedFilterfunc(results) {
 
-// }
+function combinedFilterfunc(results) {
+  // console.log("i am filtering combined");
+  const regionsSelect = document.getElementById("regions");
+  const searchElement = document.querySelector(".searchB");
+  const selectedRegion = regionsSelect.value;
+  const searchValue = searchElement.value;
+  const myFilter = results.filter(function (result) {
+    return (
+      result.region === selectedRegion &&
+      result.name.common.toLowerCase().includes(searchValue.toLowerCase())
+    );
+  });
+  createCards(myFilter);
 
-// function combinedFilterfunc(results) {
-//   const regionsSelect = document.getElementById("regions");
-//   const inputElement = document.querySelector(".searchB");
-//   const myFilter = results.filter((results) => {
-//     selectedRegion === results[i].region ||
-//       (value === "All Regions" &&
-//         countriesToLowerCase.includes(textInput.toLowerCase()));
-//   });
-// }
+  // console.log("myFilter :>> ", myFilter);
+}
 //#endregion
 // ------------------------------------------------------------->
 
@@ -69,7 +73,8 @@ function addRegionEvent(results) {
     if (event.target.value === "All Regions") {
       createCards(results);
     } else {
-      regionDropdownFilter(results);
+      // regionDropdownFilter(results);
+      combinedFilterfunc(results);
     }
   });
 }
@@ -98,7 +103,8 @@ function addSearchEvent(results) {
   const inputElement = document.querySelector(".searchB");
   inputElement.addEventListener("input", (e) => {
     // console.log("printing input value", inputElement.value);
-    filterByText(results);
+    // filterByText(results);
+    combinedFilterfunc(results);
   });
 }
 //SECTION - Version 1
@@ -225,7 +231,7 @@ function addEvents(results) {
   }
 }
 
-//SECTION - Modal close event---------------------------------------->
+//SECTION - Modal close Event for modal close button---------------------------------------->
 function closeEvent() {
   const closeButton = document.getElementById("closeModal");
   closeButton.addEventListener("click", closeModal);
@@ -236,6 +242,7 @@ function closeModal() {
   closeButton.classList.add("visually-hidden");
 }
 
+// SECTION - PopulateModal function ---------------------------------------------->
 // Populating modal once the button is clicked with info for just that country that relates to the index of that country.
 function populateModal(clickedCountry) {
   console.log("clickedCountry :>> ", clickedCountry);
