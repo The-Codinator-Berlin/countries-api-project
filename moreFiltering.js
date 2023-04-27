@@ -11,13 +11,13 @@ async function fetchData() {
     createCards(results);
     addEvents(results);
     addRegionEvent(results);
-    addEventToAllOption(results);
     addSearchEvent(results);
   } catch (error) {
     console.log("error :>> ", error);
   }
 }
 fetchData();
+
 // ------------------------------------>
 //SECTION - Second type of fetch here:
 //#region
@@ -40,7 +40,60 @@ fetchData();
 // fetchData();
 //#endregion
 // ------------------------------------>
-// SearchBar Event Listener ----------------------------------------------------------------->
+
+//TODO - Combined filter function ----->
+//#region
+// function combinedFilterfunc(results) {
+
+// }
+
+// function combinedFilterfunc(results) {
+//   const regionsSelect = document.getElementById("regions");
+//   const inputElement = document.querySelector(".searchB");
+//   const myFilter = results.filter((results) => {
+//     selectedRegion === results[i].region ||
+//       (value === "All Regions" &&
+//         countriesToLowerCase.includes(textInput.toLowerCase()));
+//   });
+// }
+//#endregion
+// ------------------------------------------------------------->
+
+//SECTION - Regions dropdown event/ filtering
+// ------------------------------------------------------------->
+function addRegionEvent(results) {
+  const regionsSelect = document.getElementById("regions");
+  regionsSelect.addEventListener("change", function (event) {
+    console.log(event.target.value);
+    //NOTE - Added an if/else so that All regions when selscted will call createCards with all the results, in turn displaying all cards again after having used another selection.
+    if (event.target.value === "All Regions") {
+      createCards(results);
+    } else {
+      regionDropdownFilter(results);
+    }
+  });
+}
+// Filter
+function regionDropdownFilter(results) {
+  const getRegion = document.getElementById("regions");
+
+  const selectedRegion = getRegion.value;
+  // console.log("selectedRegion :>> ", selectedRegion);
+
+  const filteredCountries = [];
+  for (let i = 0; i < results.length; i++) {
+    if (selectedRegion === results[i].region) {
+      // console.log(results[i].name);
+      filteredCountries.push(results[i]);
+    } else {
+      console.log("There are more countries, but not in this region!");
+    }
+  }
+  // console.log("filteredCountries :>> ", filteredCountries);
+  createCards(filteredCountries);
+}
+//--------------------------------------------------------------->
+//SECTION SearchBar Event Listener
 function addSearchEvent(results) {
   const inputElement = document.querySelector(".searchB");
   inputElement.addEventListener("input", (e) => {
@@ -64,7 +117,7 @@ function filterByText(results) {
   createCards(filteredCountriesByInput);
   // console.log("filteredCountriesByInput :>> ", filteredCountriesByInput);
 }
-
+//--------------------------------------------------------------->
 // //SECTION - SearchBar filtering Version 2 with line by line explination.
 //#region
 // // // Function filterByText with results as a parameter
@@ -85,7 +138,7 @@ function filterByText(results) {
 //   console.log("filteredCountriesByInput :>> ", filteredCountriesByInput);
 // } //
 //#endregion
-
+//--------------------------------------------------------------->
 //SECTION - Creates all cards using DOM manipulation using results fromt the API
 function createCards(results) {
   // console.log("results :>> ", results);
@@ -149,39 +202,7 @@ function createCards(results) {
 
   //NOTE we move closeEvent();/ this function call to populateModal() function, because we need to create the button first, before adding the event to close it.
 }
-//SECTION - Regions dropdown event/ filtering
-// ------------------------------------------------------------>
-function addRegionEvent(results) {
-  const regionsSelect = document.getElementById("regions");
-  regionsSelect.addEventListener("change", function (event) {
-    // console.log(event.target.value);
-    //NOTE - Added an if/else so that All regions when selscted will call createCards with all the results, in turn displaying all cards again after having used another selection.
-    if (event.target.value === "All Regions") {
-      createCards(results);
-    } else {
-      regionDropdownFilter(results);
-    }
-  });
-}
-// Filter ---------------------------------------------------->
-function regionDropdownFilter(results) {
-  const getRegion = document.getElementById("regions");
 
-  const selectedRegion = getRegion.value;
-  // console.log("selectedRegion :>> ", selectedRegion);
-
-  const filteredCountries = [];
-  for (let i = 0; i < results.length; i++) {
-    if (selectedRegion === results[i].region) {
-      // console.log(results[i].name);
-      filteredCountries.push(results[i]);
-    } else {
-      console.log("There are more countries, but not in this region!");
-    }
-  }
-  // console.log("filteredCountries :>> ", filteredCountries);
-  createCards(filteredCountries);
-}
 // ------------------------------------------------------------------------>
 
 //!SECTION Open modal ------------------------------>
